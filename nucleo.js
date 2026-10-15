@@ -13,15 +13,17 @@ const R=new T.WebGLRenderer({
   antialias:true,powerPreference:'high-performance'
 });
 document.body.prepend(R.domElement);
-const sc=new T.Scene(),cam=new T.PerspectiveCamera(62,1,.3,500),HZ=0xf6d9a6;
-sc.fog=new T.Fog(HZ,60,230);
+R.toneMapping=T.ACESFilmicToneMapping;   // cinema: contraste e cores mais ricas
+R.toneMappingExposure=1.25;
+const sc=new T.Scene(),cam=new T.PerspectiveCamera(62,1,.3,500),HZ=0xd9a978;
+sc.fog=new T.Fog(HZ,35,190);
 const mc={
 },M=c=>mc[c]||(mc[c]=new T.MeshPhongMaterial({
   color:c,flatShading:true,shininess:0
 }));
 // sky
 const sky=(()=>{
-  const g=new T.SphereGeometry(400,16,10),p=g.attributes.position,c=new Float32Array(p.count*3),a=new T.Color(0x3a8fe0),b=new T.Color(HZ),t=new T.Color();
+  const g=new T.SphereGeometry(400,16,10),p=g.attributes.position,c=new Float32Array(p.count*3),a=new T.Color(0x7a80a8),b=new T.Color(HZ),t=new T.Color();
   for(let i=0;i<p.count;i++){
     t.copy(b).lerp(a,cl(p.getY(i)/250,0,1));
     c.set([t.r,t.g,t.b],i*3)
@@ -33,8 +35,8 @@ const sky=(()=>{
   sc.add(m);
   return m
 })();
-sc.add(new T.HemisphereLight(0xfff1d6,0xc08a50,.8));
-const sun=new T.DirectionalLight(0xfff0cc,.95);
+sc.add(new T.HemisphereLight(0xffe3c4,0x8a6445,.75));
+const sun=new T.DirectionalLight(0xffc98f,1.15);
 sun.shadow.camera.left=-45;
 sun.shadow.camera.right=45;
 sun.shadow.camera.top=45;

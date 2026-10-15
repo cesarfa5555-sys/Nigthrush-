@@ -18,8 +18,8 @@ function applyGfx(l){
     sun.shadow.map.dispose();
     sun.shadow.map=null
   }
-  sc.fog.near=l?60:40;
-  sc.fog.far=l?230:150;
+  sc.fog.near=l?35:30;
+  sc.fog.far=l?190:140;
   sc.traverse(o=>{
     if(o.material)[].concat(o.material).forEach(m=>m.needsUpdate=true)
   });
@@ -79,3 +79,23 @@ function aviso(t){
   toastT=setTimeout(()=>e.classList.remove('show'),1600);
 }
 document.querySelectorAll('[data-breve]').forEach(b=>b.onclick=()=>aviso('🚧 '+b.textContent+' — em breve!'));
+
+// tela cheia
+$('fs').onclick=()=>{
+  const d=document,e=d.documentElement;
+  if(d.fullscreenElement)d.exitFullscreen();
+  else if(e.requestFullscreen)e.requestFullscreen();
+};
+
+// direção por setas (opção na CONFIG)
+function atualizaSetas(){
+  document.body.classList.toggle('setas',!!setas);
+  $('bs').textContent='Direção: '+(setas?'SETAS':'JOYSTICK');
+  $('bs').classList.toggle('on',!!setas);
+}
+$('bs').onclick=()=>{
+  setas^=1;
+  try{localStorage.setItem('nr_s',setas)}catch(e){}
+  atualizaSetas();
+};
+atualizaSetas();

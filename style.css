@@ -44,3 +44,27 @@ h1{font:900 54px system-ui;margin:0;letter-spacing:3px;font-style:italic}h1 b{co
 /* ===== Aviso "em breve" ===== */
 #toast{position:fixed;left:50%;bottom:12%;transform:translate(-50%,20px);padding:10px 22px;border-radius:14px;background:#14102af2;border:1px solid #ff7a1a;color:#fff;font:800 16px system-ui;z-index:40;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 8px 24px #000a}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== HUD estilo painel (laranja/escuro) ===== */
+body{font-family:Rajdhani,system-ui,sans-serif}
+.pn{position:relative;background:#140e0acc;border-left:3px solid #ff7a1a;padding:3px 12px 4px;min-width:62px;border-radius:2px;text-shadow:0 1px 2px #000}
+.pn small{display:block;font:600 11px Rajdhani,system-ui;color:#e8c9a8;letter-spacing:.7px;text-transform:uppercase}
+.pn b{font:700 26px Rajdhani,system-ui;line-height:1;color:#fff}
+#tl{top:8px;left:10px;width:auto;display:flex;gap:6px}
+#tc{top:6px;gap:8px}
+.ib{width:38px;height:38px;border-radius:6px;background:#140e0acc;border:1px solid #ff7a1a88;color:#fff;font-size:18px;padding:0}
+#tr{width:132px;font:600 12px Rajdhani,system-ui}
+#mm{display:block;width:132px;height:132px;border:2px solid #ff7a1a77;border-radius:50%;background:#2a1f15;margin-bottom:6px}
+#bl{position:fixed;left:10px;bottom:12px;z-index:7;width:190px}
+#bl .pn b{position:absolute;right:12px;top:6px;font-size:30px}
+#hpb{height:10px;border:0;border-radius:0;background:#ffffff22;margin-top:4px}
+#hpb i{background:linear-gradient(90deg,#ff7a1a,#ffc23a)}
+#sp{bottom:6px;display:flex;flex-direction:column;align-items:center;line-height:.9}
+#sp b{font:700 58px Rajdhani,system-ui;color:#f1e3cf;text-shadow:0 3px 8px #000}
+#sp small{font:600 13px Rajdhani,system-ui;letter-spacing:1px;color:#c9b29a;text-transform:none}
+/* ===== Setas de direção (opção da CONFIG) ===== */
+.ar{display:none;width:22vh;height:22vh;border-radius:4vh;--a:#9db4dc;--b:#3b4f7a;--c:#27344f}
+body.setas .ar{display:flex}
+.ar svg{width:55%;max-height:none;stroke-width:3}
+#sl{left:29%;top:78%}
+#sr{left:40.5%;top:78%}

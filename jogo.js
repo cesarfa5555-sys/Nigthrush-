@@ -14,13 +14,14 @@ function feed(t){
 }
 
 function reset(){
+  kills=0;
   cars.forEach(c=>sc.remove(c.g));
   cars.length=0;
   bu.forEach(b=>sc.remove(b.m));
   bu.length=0;
   $('sbd').innerHTML='';
   [['VOCÊ',0x2f8cff],['NITRO_X',0xff3b3b],['RAZOR',0x35d36b],['VIPER',0xb04dff]].forEach((n,k)=>{
-    const c=mkCar(n[0],n[1],k==0);
+    const c=mkCar(n[0],n[1],k==0,[0,1,2,0][k]);
     c.x=SP[k][0];
     c.z=SP[k][1];
     c.b.sh=5;   // proteção de nascimento (escudo por 5s)
@@ -52,7 +53,7 @@ function start(){
   cd=3.6;
   endT=0;
   ['menu','cfg','end'].forEach(i=>$(i).classList.add('h'));
-  ['ctl','tl','tc','tr','sp','btns','mira'].forEach(i=>$(i).classList.remove('h'))
+  ['ctl','tl','tc','tr','sp','btns','mira','bl'].forEach(i=>$(i).classList.remove('h'))
 }
 
 function menu(){
@@ -61,7 +62,7 @@ function menu(){
   reset();
   $('menu').classList.remove('h');
   $('end').classList.add('h');
-  ['ctl','tl','tc','tr','sp','btns','mira'].forEach(i=>$(i).classList.add('h'));
+  ['ctl','tl','tc','tr','sp','btns','mira','bl'].forEach(i=>$(i).classList.add('h'));
   $('cd').textContent=''
 }
 const dum=new T.Object3D();
@@ -87,10 +88,12 @@ function draw(dt){
     p.m.position.x+=p.v[0]*dt;
     p.m.position.y+=p.v[1]*dt;
     p.m.position.z+=p.v[2]*dt;
-    p.v[1]-=(p.t==2?-1:9)*dt;
-    p.m.scale.setScalar(p.s*(p.t==2?(1.6-.6*k)*Math.min(1,k*3):k))
+    p.v[1]-=(p.t==2?-1:p.t==0?2:9)*dt;
+    const grande=p.t==0||p.t==2;
+    p.m.scale.setScalar(p.s*(grande?2.6:1.8)*(grande?1+(1-k)*(p.t==2?2:1.4):k));
+    p.m.material.opacity=(grande?.5:.95)*Math.min(1,k*2.5)
   }
-  for(let n=0;n<280;n++){
+  for(let n=0;n<360;n++){
     const m=mks[n];
     if(!m||m.l<=0)dum.scale.set(0,0,0);
     else{
@@ -235,7 +238,7 @@ function update(dt){
   cam.fov=fovC;
   cam.updateProjectionMatrix();
   sky.position.copy(cam.position);
-  sun.position.set(P.x+40,70,P.z+25);
+  sun.position.set(P.x+60,42,P.z+22);
   sun.target.position.set(P.x,0,P.z);
   roofs.forEach((r,i)=>{
     const b=bl[i];
@@ -243,9 +246,10 @@ function update(dt){
   });
   // hud
   $('hpb').querySelector('i').style.width=P.hp+'%';
-  $('hpb').querySelector('i').style.background=P.hp>50?'#2fd36a':P.hp>25?'#ffb020':'#ff3b3b';
-  $('al').textContent=al.length;
-  $('sp').textContent=Math.round(Math.abs(P.vf)*3.6)+' km/h';
+  $('hpn').textContent=Math.round(P.hp*5);
+  $('ab').textContent=kills;
+  $('al').textContent=Math.max(0,al.length-(P.alive?1:0));
+  $('spn').textContent=Math.round(Math.abs(P.vf)*3.6);
   cars.forEach(c=>c.hb.style.width=c.hp+'%');
   flash=Math.max(0,flash-dt*2);
   $('fl').style.opacity=flash;
@@ -255,6 +259,7 @@ function update(dt){
     $('bf').textContent=bf
   }
   atualizaMira();
+  minimapa();
   engine()
 }
 
@@ -271,4 +276,34 @@ function atualizaMira(){
   const sx=(cl(_vm.x,-.95,.95)*.5+.5)*innerWidth,sy=(-cl(_vm.y,-.95,.95)*.5+.5)*innerHeight;
   m.style.transform=`translate(${sx}px,${sy}px) translate(-50%,-50%)`;
   m.classList.toggle('fire',!!P.in.fire);
+}
+
+let kills=0;   // inimigos destruídos pelo jogador
+
+// minimapa (canto superior direito)
+const mmC=$('mm'),mmX=mmC.getContext('2d');
+function minimapa(){
+  const S=132,k=S/2/130,X=x=>S/2+x*k,Y=z=>S/2+z*k;
+  mmX.clearRect(0,0,S,S);
+  mmX.fillStyle='#2a1f15';mmX.fillRect(0,0,S,S);
+  mmX.strokeStyle='#d9a978';mmX.lineWidth=2;
+  mmX.beginPath();mmX.arc(S/2,S/2,104*k,0,PI*2);mmX.stroke();
+  mmX.fillStyle='#6b5a48';
+  for(const b of bl)mmX.fillRect(X(b[0]-b[2]/2),Y(b[1]-b[3]/2),b[2]*k,b[3]*k);
+  for(const p of pus)if(p.g.visible){
+    mmX.fillStyle=css(PU[p.t][0]);
+    mmX.fillRect(X(p.x)-1.5,Y(p.z)-1.5,3,3);
+  }
+  for(const c of cars)if(c.alive&&!c.me){
+    mmX.fillStyle='#ff4a3a';
+    mmX.beginPath();mmX.arc(X(c.x),Y(c.z),3,0,PI*2);mmX.fill();
+  }
+  if(P.alive){
+    mmX.save();
+    mmX.translate(X(P.x),Y(P.z));
+    mmX.rotate(PI-P.h);
+    mmX.fillStyle='#4fd0ff';
+    mmX.beginPath();mmX.moveTo(0,-6);mmX.lineTo(4.5,5);mmX.lineTo(-4.5,5);mmX.closePath();mmX.fill();
+    mmX.restore();
+  }
 }

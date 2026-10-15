@@ -21,7 +21,8 @@ function H(x,z){
     const h=H(p.getX(i),p.getZ(i)),n=rnd()*.05,t=cl(h/5+.5,0,1);
     p.setY(i,h);
     const borda=cl((Math.hypot(p.getX(i),p.getZ(i))-75)/30,0,1);   // areia mais escura perto do muro
-    k.setHSL(.09+n*.3,.6-t*.12+borda*.06,.5+t*.14+n-borda*.15);
+    const sujo=Math.sin(p.getX(i)*.08+1)*Math.sin(p.getZ(i)*.1)>.5?.05:0;   // manchas de terra
+    k.setHSL(.075+n*.2,.38-t*.08+borda*.05,.40+t*.10+n-borda*.08-sujo);
     c.set([k.r,k.g,k.b],i*3)
   }
   g.setAttribute('color',new T.BufferAttribute(c,3));
@@ -91,7 +92,7 @@ put(()=>{
   b.position.set(-.9,2.3,0);
   g.add(a,b);
   return g
-},28,1);
+},10,1);
 put(()=>{
   const m=new T.Mesh(new T.DodecahedronGeometry(1.2+rnd()*1.4,0),M(0xa6896a));
   m.scale.y=.7;

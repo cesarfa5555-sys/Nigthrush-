@@ -18,6 +18,7 @@ function hurt(c,n,src){
 }
 
 function die(c,src){
+  if(src&&src.me&&src!=c)kills++;
   c.alive=false;
   c.g.visible=false;
   c.hp=0;

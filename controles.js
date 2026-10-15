@@ -8,13 +8,15 @@
 
 const sL={x:0,y:0,on:0};   // joystick de direção (esquerda)
 const sR={x:0,y:0,on:0};   // botão de tiro/mira (direita)
-const pd={g:0,b:0,r:0};    // acelerar, freio, ré
+let setas=0;               // 1 = direção por setas na tela
+try{setas=+localStorage.getItem('nr_s')||0}catch(e){}
+const pd={g:0,b:0,r:0,l:0,rt:0};    // acelerar, freio, ré
 const K={};                // teclado
 const toques={};           // id do dedo -> controle que ele usa
 
 const ctl=$('ctl'),baseE=$('sbase'),knobE=$('sknob'),fireE=$('pf'),fireK=$('pfk');
-const BTN={gas:$('pg'),brake:$('pb'),rev:$('pr')};
-const PD_KEY={gas:'g',brake:'b',rev:'r'};
+const BTN={gas:$('pg'),brake:$('pb'),rev:$('pr'),left:$('sl'),right:$('sr')};
+const PD_KEY={gas:'g',brake:'b',rev:'r',left:'l',right:'rt'};
 
 // distância do ponto (x,y) até o controle (0 = dentro)
 function distControle(k,x,y){
@@ -29,12 +31,13 @@ function distControle(k,x,y){
 // qual controle o dedo pegou? (o mais próximo, até 10px de folga)
 function achaControle(x,y){
   let melhor=null,md=10;
-  for(const k of['gas','brake','rev','fire']){
+  for(const k of['gas','brake','rev','fire','left','right']){
+    if((k=='left'||k=='right')&&!setas)continue;
     const d=distControle(k,x,y);
     if(d<md){md=d;melhor=k}
   }
   if(melhor)return melhor;
-  return x<innerWidth*.5?'steer':null;
+  return(x<innerWidth*.5&&!setas)?'steer':null;
 }
 
 function pega(id,k,x,y){
@@ -135,7 +138,7 @@ function pin(){
   i.thr=((auto&&!pd.b&&!pd.r&&!K.KeyS)||pd.g||K.KeyW||K.ArrowUp)?1:0;
   i.br=(pd.b||K.KeyS||K.ArrowDown)?1:0;
   i.rv=(pd.r||K.KeyX)?1:0;
-  i.st=cl(-sL.x+((K.KeyA||K.ArrowLeft)?1:0)-((K.KeyD||K.ArrowRight)?1:0),-1,1);
+  i.st=cl(-sL.x+(pd.l?1:0)-(pd.rt?1:0)+((K.KeyA||K.ArrowLeft)?1:0)-((K.KeyD||K.ArrowRight)?1:0),-1,1);
   if(sR.on){
     // tocou no botão redondo: atira. Arrastar mexe a mira.
     if(m>.2){

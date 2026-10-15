@@ -85,6 +85,25 @@ const GEO_CANO=new T.CylinderGeometry(.11,.14,1.5,12).rotateX(PI/2);
 const GEO_BOCA=new T.TorusGeometry(.14,.045,6,12);
 const GEO_ANEL=new T.TorusGeometry(.5,.07,8,18).rotateX(PI/2);
 
+// ---- peças extras para as variações (muscle / picape / jipe) ----
+const SOFT_Y=new T.SpriteMaterial({map:SOFT,color:0xfff0c0,transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false});
+const SOFT_R=new T.SpriteMaterial({map:SOFT,color:0xff2a2a,transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false});
+const MAT_FARO=new T.MeshBasicMaterial({color:0xfff3b0}),MAT_LANT=new T.MeshBasicMaterial({color:0xff2a2a});
+const GEO_LUZ=rbox(1.5,.07,.06,.02),GEO_PLACA=rbox(.55,.2,.05,.02),GEO_ESPELHO=rbox(.12,.14,.22,.03),GEO_CAPO=rbox(.55,.1,.8,.04);
+const GEO_CABINE_PK=(()=>{
+  const s=new T.Shape();
+  s.moveTo(-.1,1.05);
+  s.bezierCurveTo(-.05,1.4,.1,1.68,.35,1.72);
+  s.lineTo(.85,1.72);
+  s.bezierCurveTo(1.15,1.7,1.25,1.4,1.4,1.05);
+  s.lineTo(-.1,1.05);
+  return corpoLateral(s,.9,.1,.3);
+})();
+const GEO_TETO_PK=rbox(1.45,.14,.95,.06),GEO_BED_L=rbox(.1,.42,2.0,.03),GEO_BED_T=rbox(1.9,.42,.1,.03);
+const GEO_ARCO_P=rbox(.08,.7,.08,.02),GEO_ARCO_B=rbox(1.5,.08,.08,.02);
+const GEO_JEEP=rbox(1.55,.9,2.2,.1),GEO_JEEP_T=rbox(1.7,.12,2.35,.1),GEO_BARRA=rbox(1.3,.12,.15,.04);
+const GEO_BULL=rbox(1.6,.18,.15,.05),GEO_BULL_P=rbox(.1,.5,.1,.02);
+
 function tag(n,c){
   const cv=document.createElement('canvas');
   cv.width=256;
@@ -106,7 +125,7 @@ function tag(n,c){
   return s
 }
 
-function mkCar(name,col,me){
+function mkCar(name,col,me,tipo=0){
   const g=new T.Group();
   g.rotation.order='YXZ';
   sc.add(g);
@@ -120,38 +139,65 @@ function mkCar(name,col,me){
     pai.add(m);
     return m;
   };
-  const tinta=MG(col);
-  add(GEO_CASCO,tinta,0,0,0);                          // carroceria curva
-  add(GEO_CABINE,MG(0x16222e,110),0,0,-.1);            // vidros
-  add(GEO_TETO,tinta,0,1.9,-.1);                       // teto
-  add(GEO_FAIXA,MG(0xffffff),0,1.995,-.1);             // faixa de corrida
-  add(GEO_ESFERA,MG(PRETO),0,.5,1.95,.9,.16,.3);       // parachoque da frente
-  add(GEO_ESFERA,MG(PRETO),0,.5,-1.95,.9,.16,.3);      // parachoque de trás
-  add(GEO_GRADE,MG(PRETO),0,.82,2.04);                 // grade
+  const brilho=(mat,x,y,z,s)=>{const sp=new T.Sprite(mat);sp.position.set(x,y,z);sp.scale.set(s,s,1);g.add(sp)};
+  const tinta=MG(col),vidro=MG(0x16222e,110),preto=MG(PRETO);
+  let ty=2.0,tz=.1;   // posição da torreta
+  add(GEO_CASCO,tinta,0,0,0);                              // carroceria curva
+  if(tipo==0){                                             // muscle car
+    add(GEO_CABINE,vidro,0,0,-.1);
+    add(GEO_TETO,tinta,0,1.9,-.1);
+    add(GEO_FAIXA,MG(0xffffff),0,1.995,-.1);
+    add(GEO_CAPO,preto,0,1.2,.9);                          // entrada de ar no capô
+    [.88,-.88].forEach(x=>add(GEO_ESPELHO,tinta,x,1.2,.75));
+    add(GEO_ASA,preto,0,1.52,-1.95);                       // aerofólio
+    [.55,-.55].forEach(x=>add(GEO_POSTE,preto,x,1.35,-1.92));
+  }else if(tipo==1){                                       // picape: cabine pra frente + caçamba
+    add(GEO_CABINE_PK,vidro,0,0,0);
+    add(GEO_TETO_PK,tinta,0,1.9,.65);
+    [.9,-.9].forEach(x=>add(GEO_BED_L,tinta,x,1.44,-1.0));
+    add(GEO_BED_T,tinta,0,1.44,-1.98);
+    [.7,-.7].forEach(x=>add(GEO_ARCO_P,preto,x,1.6,-.15)); // santo antônio
+    add(GEO_ARCO_B,preto,0,1.95,-.15);
+    [.88,-.88].forEach(x=>add(GEO_ESPELHO,tinta,x,1.2,1.2));
+    ty=1.75;tz=-1.05;
+  }else{                                                   // jipe: cabine quadrada, barra de luzes
+    add(GEO_JEEP,vidro,0,1.5,-.2);
+    add(GEO_JEEP_T,tinta,0,2.02,-.2);
+    add(GEO_BARRA,preto,0,2.14,.8);
+    [-.5,-.17,.17,.5].forEach(x=>brilho(SOFT_Y,x,2.2,.95,.7));
+    add(GEO_BULL,preto,0,.62,2.12);                        // quebra-mato
+    [.6,-.6].forEach(x=>add(GEO_BULL_P,preto,x,.85,2.1));
+    add(PNEU,MG(0x1a1a1a,15),0,1.0,-2.28).rotation.y=PI/2; // estepe
+    ty=2.15;tz=-.3;
+  }
+  add(GEO_ESFERA,preto,0,.5,1.95,.9,.16,.3);               // parachoques
+  add(GEO_ESFERA,preto,0,.5,-1.95,.9,.16,.3);
+  add(GEO_GRADE,preto,0,.82,2.04);
   [.62,-.62].forEach(x=>{
-    add(GEO_ESFERA,new T.MeshBasicMaterial({color:0xfff3b0}),x,.88,1.99,.17,.17,.1);   // faróis redondos
-    add(GEO_ESFERA,new T.MeshBasicMaterial({color:0xff2a2a}),x,.9,-2.0,.17,.14,.1);    // lanternas
+    add(GEO_ESFERA,MAT_FARO,x,.88,1.99,.17,.17,.1);        // faróis com brilho
+    brilho(SOFT_Y,x,.88,2.2,1.5);
   });
-  [.5,-.5].forEach(x=>add(GEO_ESCAPE,MG(0xdddddd,120),x,.58,-2.12));   // canos de escape
-  // aerofólio
-  add(GEO_ASA,MG(PRETO),0,1.52,-1.95);
-  [.55,-.55].forEach(x=>add(GEO_POSTE,MG(PRETO),x,1.35,-1.92));
-  // para-lamas arredondados e rodas
+  add(GEO_LUZ,MAT_LANT,0,.98,-2.07);                       // barra de luz traseira
+  brilho(SOFT_R,0,.98,-2.2,2.4);
+  add(GEO_PLACA,MG(0xf2f2f2),0,.68,-2.1);
+  [.5,-.5].forEach(x=>add(GEO_ESCAPE,MG(0xdddddd,120),x,.58,-2.12));
+  // para-lamas e rodas
   const wh=WL.map(([x,z])=>{
     add(GEO_PARALAMA,tinta,x*.93,.52,z,.42,.5,.78);
     const p=new T.Group();
     p.position.set(x,.42,z);
     const w=new T.Mesh(PNEU,MG(0x1a1a1a,15));
     w.castShadow=true;
-    const aro=MG(0xd8dde3,110);
-    w.add(new T.Mesh(ARO,aro),new T.Mesh(RAIO1,aro),new T.Mesh(RAIO2,aro));
+    w.add(new T.Mesh(ARO,MG(0x2e3238,90)));
+    const raio=MG(0xb7bec7,110);
+    w.add(new T.Mesh(RAIO1,raio),new T.Mesh(RAIO2,raio));
     p.add(w);
     g.add(p);
     return{p,w};
   });
   // torreta: cúpula + anel colorido + cano com boca
   const tg=new T.Group();
-  tg.position.set(0,2.0,.1);
+  tg.position.set(0,ty,tz);
   add(GEO_PARALAMA,MG(0x2b2f36),0,0,0,.5,.35,.5,tg);
   add(GEO_ANEL,tinta,0,.02,0,1,1,1,tg);
   const bar=add(GEO_CANO,MG(0x444b55,90),0,.18,.95,1,1,1,tg);
