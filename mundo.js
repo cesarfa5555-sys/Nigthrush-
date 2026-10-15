@@ -37,7 +37,7 @@ for(let i=0;i<30;i++){
   sc.add(m)
 }
 // world objects
-const C=[],W=[],roofs=[],SP=[0,1,2,3].map(k=>[Math.sin(k*PI/2+PI/4)*62,Math.cos(k*PI/2+PI/4)*62]);
+const C=[],W=[],roofs=[],SP=[[0,-72],[72,0],[-72,0],[28,76]];   // pontos de nascimento (livres de prédios)
 
 function wall(x0,z0,x1,z1,col){
   W.push([x0,z0,x1,z1]);
@@ -64,7 +64,7 @@ bl.forEach((b,i)=>{
   sc.add(r);
   roofs.push(r)
 });
-const free=(x,z,m)=>Math.hypot(x,z)<100&&bl.every(b=>Math.abs(x-b[0])>b[2]/2+m||Math.abs(z-b[1])>b[3]/2+m)&&SP.every(s=>Math.hypot(x-s[0],z-s[1])>10);
+const free=(x,z,m)=>Math.hypot(x,z)<100&&bl.every(b=>Math.abs(x-b[0])>b[2]/2+m||Math.abs(z-b[1])>b[3]/2+m)&&SP.every(s=>Math.hypot(x-s[0],z-s[1])>14);
 
 function put(mk,n,r){
   for(let i=0,j=0;i<n&&j<400;j++){

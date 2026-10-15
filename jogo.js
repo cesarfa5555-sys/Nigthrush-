@@ -20,9 +20,10 @@ function reset(){
   bu.length=0;
   $('sbd').innerHTML='';
   [['VOCÊ',0x2f8cff],['NITRO_X',0xff3b3b],['RAZOR',0x35d36b],['VIPER',0xb04dff]].forEach((n,k)=>{
-    const c=mkCar(n[0],n[1],k==0),a=k*PI/2+PI/4;
-    c.x=Math.sin(a)*62;
-    c.z=Math.cos(a)*62;
+    const c=mkCar(n[0],n[1],k==0);
+    c.x=SP[k][0];
+    c.z=SP[k][1];
+    c.b.sh=5;   // proteção de nascimento (escudo por 5s)
     c.h=Math.atan2(-c.x,-c.z);
     WL.forEach(([lx,lz],i)=>{
       const p=wp(c,lx,lz);
@@ -45,20 +46,22 @@ function reset(){
 }
 
 function start(){
+  soltaTudo();
   reset();
   state='play';
   cd=3.6;
   endT=0;
   ['menu','cfg','end'].forEach(i=>$(i).classList.add('h'));
-  ['zl','zr','tl','tc','tr','sp','ped'].forEach(i=>$(i).classList.remove('h'))
+  ['ctl','tl','tc','tr','sp','btns'].forEach(i=>$(i).classList.remove('h'))
 }
 
 function menu(){
+  soltaTudo();
   state='menu';
   reset();
   $('menu').classList.remove('h');
   $('end').classList.add('h');
-  ['zl','zr','tl','tc','tr','sp','ped'].forEach(i=>$(i).classList.add('h'));
+  ['ctl','tl','tc','tr','sp','btns'].forEach(i=>$(i).classList.add('h'));
   $('cd').textContent=''
 }
 const dum=new T.Object3D();
