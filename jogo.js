@@ -184,6 +184,10 @@ function update(dt){
       sparks(b.x,b.y,b.z,3);
       break
     }
+    if(!dead&&muroTiro(b)){
+      dead=true;
+      sparks(b.x,b.y,b.z,3)
+    }
     if(!dead)for(const o of C)if(Math.hypot(b.x-o.x,b.z-o.z)<o.r){
       dead=true;
       sparks(b.x,b.y,b.z,3);

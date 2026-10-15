@@ -30,6 +30,7 @@ function nrFalhou(f){nrFaltam.push(f)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="nucleo.js"></script>
 <script src="mundo.js"></script>
+<script src="muro.js"></script>
 <script src="efeitos.js"></script>
 <script src="carros.js"></script>
 <script src="audio.js"></script>
@@ -42,7 +43,7 @@ function nrFalhou(f){nrFaltam.push(f)}
 <script>
 // Diagnóstico: avisa na tela se algum arquivo .js não carregou
 setTimeout(function(){
-  var t=[['nucleo','R'],['mundo','H'],['efeitos','fx'],['carros','mkCar'],['audio','audio'],['jogo','update'],['combate','shoot'],['fisica','drive'],['bots','ai'],['controles','pin'],['ui','applyGfx']],f=[];
+  var t=[['nucleo','R'],['mundo','H'],['muro','muroCarro'],['efeitos','fx'],['carros','mkCar'],['audio','audio'],['jogo','update'],['combate','shoot'],['fisica','drive'],['bots','ai'],['controles','pin'],['ui','applyGfx']],f=[];
   if(typeof THREE==='undefined')f.push('three.js (internet/CDN)');
   t.forEach(function(a){try{if(new Function('return typeof '+a[1])()==='undefined')f.push(a[0]+'.js')}catch(e){f.push(a[0]+'.js')}});
   if(f.length){var d=document.createElement('div');d.style.cssText='position:fixed;inset:0;z-index:99;background:#300;color:#fff;font:600 16px system-ui;padding:20px;display:flex;flex-direction:column;justify-content:center;gap:8px';d.innerHTML='<b>Faltou carregar:</b><div>'+f.join('<br>')+'</div><div style="opacity:.7;font-weight:400">Confira se esses arquivos estão na MESMA pasta do index.html, com o nome exato e sem estarem vazios.</div>';document.body.append(d)}

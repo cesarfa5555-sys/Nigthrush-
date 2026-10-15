@@ -11,7 +11,7 @@ function H(x,z){
     const d=Math.hypot(Math.max(Math.abs(x-b[0])-b[2]/2,0),Math.max(Math.abs(z-b[1])-b[3]/2,0));
     m=Math.min(m,cl((d-3)/9,0,1))
   }
-  return h*m
+  return h*m*cl((100-Math.hypot(x,z))/14,0,1)   // plano perto do muro
 }
 {
   const g=new T.PlaneGeometry(260,260,130,130);
@@ -29,11 +29,6 @@ function H(x,z){
     vertexColors:true,flatShading:true,shininess:0
   }));
   m.receiveShadow=true;
-  sc.add(m)
-}
-for(let i=0;i<30;i++){
-  const a=i/30*PI*2,m=new T.Mesh(new T.ConeGeometry(14+rnd()*10,26+rnd()*22,5),M(0xb5835a));
-  m.position.set(Math.sin(a)*128,6,Math.cos(a)*128);
   sc.add(m)
 }
 // world objects

@@ -59,8 +59,7 @@ function drive(c,dt,live){
     const d=Math.hypot(c.x-o.x,c.z-o.z);
     if(d<o.r+1.5&&d>.01)bump(c,(c.x-o.x)/d,(c.z-o.z)/d,o.r+1.5-d)
   }
-  const rd=Math.hypot(c.x,c.z);
-  if(rd>104)bump(c,-c.x/rd,-c.z/rd,rd-104);
+  muroCarro(c);   // muro de areia (com buracos)
   // suspension
   const cs=Math.cos(c.h),sn=Math.sin(c.h),ws=c.w;
   WL.forEach(([lx,lz],k)=>{
