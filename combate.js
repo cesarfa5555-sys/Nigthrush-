@@ -36,7 +36,7 @@ function shoot(c){
   m.rotation.y=a;
   sc.add(m);
   bu.push({
-    m,x,z,vx:dx*78,vz:dz*78,o:c,d:(c.me?10:7)*(c.b.dm>0?2:1),l:1.3
+    m,x,z,vx:dx*78,vz:dz*78,o:c,d:(c.me?10:4)*(c.b.dm>0?2:1),l:1.3
   });
   c.kick=1;
   const[fx0,fz0]=[c.x+dx*2.3,c.z+dz*2.3];

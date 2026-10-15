@@ -68,3 +68,14 @@ applyGfx(g0);
 reset();
 onresize();
 requestAnimationFrame(loop);
+
+// aviso "em breve" para o que ainda não existe (loja, ranking, sala online)
+let toastT;
+function aviso(t){
+  const e=$('toast');
+  e.textContent=t;
+  e.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>e.classList.remove('show'),1600);
+}
+document.querySelectorAll('[data-breve]').forEach(b=>b.onclick=()=>aviso('🚧 '+b.textContent+' — em breve!'));

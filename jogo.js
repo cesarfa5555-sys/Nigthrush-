@@ -52,7 +52,7 @@ function start(){
   cd=3.6;
   endT=0;
   ['menu','cfg','end'].forEach(i=>$(i).classList.add('h'));
-  ['ctl','tl','tc','tr','sp','btns'].forEach(i=>$(i).classList.remove('h'))
+  ['ctl','tl','tc','tr','sp','btns','mira'].forEach(i=>$(i).classList.remove('h'))
 }
 
 function menu(){
@@ -61,7 +61,7 @@ function menu(){
   reset();
   $('menu').classList.remove('h');
   $('end').classList.add('h');
-  ['ctl','tl','tc','tr','sp','btns'].forEach(i=>$(i).classList.add('h'));
+  ['ctl','tl','tc','tr','sp','btns','mira'].forEach(i=>$(i).classList.add('h'));
   $('cd').textContent=''
 }
 const dum=new T.Object3D();
@@ -254,5 +254,21 @@ function update(dt){
     hudBf=bf;
     $('bf').textContent=bf
   }
+  atualizaMira();
   engine()
+}
+
+// mira na tela: aponta pra onde a torreta está virada e acompanha o joystick de tiro
+const _vm=new T.Vector3();
+function atualizaMira(){
+  const m=$('mira');
+  if(!P.alive){m.style.opacity=0;return}
+  const a=P.h+P.ta,d=26,x=P.x+Math.sin(a)*d,z=P.z+Math.cos(a)*d;
+  cam.updateMatrixWorld();
+  _vm.set(x,H(x,z)+1.4,z).project(cam);
+  if(_vm.z>1){m.style.opacity=0;return}
+  m.style.opacity=1;
+  const sx=(cl(_vm.x,-.95,.95)*.5+.5)*innerWidth,sy=(-cl(_vm.y,-.95,.95)*.5+.5)*innerHeight;
+  m.style.transform=`translate(${sx}px,${sy}px) translate(-50%,-50%)`;
+  m.classList.toggle('fire',!!P.in.fire);
 }
