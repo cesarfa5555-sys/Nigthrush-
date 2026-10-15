@@ -1,0 +1,95 @@
+/* Nightrush - estilos */
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;font-family:system-ui,sans-serif;color:#fff}
+body>canvas{position:fixed;inset:0;width:100%;height:100%}
+.h{display:none!important}.a{position:fixed}
+#tl{position:fixed;top:8px;left:10px;z-index:7;width:150px}#hpb{height:12px;border:2px solid #fff;border-radius:7px;overflow:hidden;background:#0008}#hpb i{display:block;height:100%;width:100%;background:#2fd36a}
+#bf{font-size:13px;margin-top:4px;min-height:18px}
+#tc{position:fixed;top:6px;left:50%;transform:translateX(-50%);z-index:7;text-align:center;font-weight:700;display:flex;gap:10px;align-items:center}
+#cb{background:#0007;border:1px solid #fff6;color:#fff;border-radius:8px;padding:4px 8px}
+#tr{position:fixed;top:8px;right:10px;z-index:7;width:150px;font:600 12px system-ui}
+.r{display:flex;align-items:center;gap:6px;margin-bottom:3px}.r span{width:62px;overflow:hidden;text-shadow:0 1px 2px #000}.r i{flex:1;height:6px;background:#0008;border-radius:3px;overflow:hidden}.r u{display:block;height:100%;width:100%;background:#fff;text-decoration:none}.r.x{opacity:.35}
+#feed{margin-top:6px;font-size:11px;text-shadow:0 1px 2px #000}#feed div{animation:fd 4s forwards}@keyframes fd{0%,80%{opacity:1}100%{opacity:0}}
+#sp{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font:800 18px system-ui;text-shadow:0 2px 4px #000;z-index:7}
+#cd{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font:900 90px system-ui;color:#ffd84a;text-shadow:0 4px 0 #b44,0 0 20px #000;z-index:8;pointer-events:none}
+#fl{position:fixed;inset:0;background:radial-gradient(#0000 40%,#f22);opacity:0;z-index:7;pointer-events:none}
+.ov{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#0b0618aa}
+h1{font:900 54px system-ui;margin:0;letter-spacing:3px;font-style:italic}h1 b{color:#ff7a1a}h2{margin:0}p{margin:0;opacity:.8}
+.bt{font:800 16px system-ui;padding:10px 26px;border-radius:12px;border:0;background:#ff7a1a;color:#fff;min-width:200px}.bt.s{background:#fff2;border:1px solid #fff5}.bt.d{background:#fff2;color:#fffa;min-width:0;padding:8px 14px;font-size:12px}.bt.on{background:#2fd36a}
+.row{display:flex;gap:8px}
+#rot{position:fixed;inset:0;z-index:50;background:#000;display:none;align-items:center;justify-content:center;font:700 22px system-ui;text-align:center}
+@media (orientation:portrait){#rot{display:flex}}
+
+/* ===== Controles ===== */
+#ctl{position:fixed;inset:0;z-index:5;touch-action:none}
+#sbase{position:fixed;display:none;width:110px;height:110px;border-radius:50%;z-index:6;pointer-events:none;border:2px solid #ffffff66;background:radial-gradient(circle,#ffffff22,#ffffff08 70%);box-shadow:0 0 18px #ff7a1a66,inset 0 0 14px #0007}
+#sknob{position:absolute;left:35px;top:35px;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffb27a 55%,#ff7a1a);box-shadow:0 4px 10px #000a}
+#btns{position:fixed;inset:0;z-index:6;pointer-events:none}
+.cb{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;font:800 clamp(8px,3vh,12px) system-ui;letter-spacing:.6px;text-shadow:0 1px 2px #0009;border:2px solid #ffffff55;background:linear-gradient(165deg,var(--a),var(--b));box-shadow:0 .9vh 0 var(--c),0 1.8vh 2.4vh #000a,inset 0 2px 1px #ffffff77,inset 0 -1.2vh 2vh #0000004d;transition:transform .07s,box-shadow .07s,filter .07s}
+.cb svg{width:46%;height:auto;max-height:52%;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px #0009)}
+.cb.on{transform:translate(-50%,calc(-50% + .9vh)) scale(.95);box-shadow:0 0 0 var(--c),0 .3vh .8vh #000c,inset 0 1vh 2vh #0000008c,0 0 3vh var(--a);filter:brightness(1.3)}
+#pg{left:90.3%;top:85.5%;width:30vh;height:24vh;border-radius:5vh;--a:#43ff95;--b:#0f9d52;--c:#0a6b38}
+#pr{left:76.8%;top:87%;width:21vh;height:19vh;border-radius:4vh;--a:#5bb6ff;--b:#1d58d8;--c:#143d96}
+#pb{left:75.6%;top:59%;width:17vh;height:15vh;border-radius:3.4vh;--a:#ff6b6b;--b:#b3172b;--c:#7a0f1d}
+#pf{left:85%;top:49%;width:24vh;height:24vh;border-radius:50%;--a:#ffb04d;--b:#e4360f;--c:#9a2208}
+#pfk{width:58%;height:58%;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#ffffffaa,#ffffff22 60%),#0004;border:2px solid #ffffffaa;box-shadow:inset 0 -.8vh 1.4vh #0006,0 .5vh 1vh #0007;transition:transform .06s}
+#pfk svg{width:70%;height:70%;max-height:none}
+
+/* ===== Mira na tela ===== */
+#mira{position:fixed;left:0;top:0;width:44px;height:44px;z-index:4;pointer-events:none;transition:opacity .15s;filter:drop-shadow(0 1px 2px #000a)}
+#mira svg{width:100%;height:100%;transition:transform .08s}
+#mira.fire svg{transform:scale(1.3) rotate(45deg)}
+#mira.fire svg *{stroke:#ff5a3a}
+#mira.fire svg circle[fill]{fill:#ff5a3a}
+/* ===== Aviso "em breve" ===== */
+#toast{position:fixed;left:50%;bottom:12%;transform:translate(-50%,20px);padding:10px 22px;border-radius:14px;background:#14102af2;border:1px solid #ff7a1a;color:#fff;font:800 16px system-ui;z-index:40;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 8px 24px #000a}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== HUD estilo painel (laranja/escuro) ===== */
+body{font-family:Rajdhani,system-ui,sans-serif}
+.pn{position:relative;background:#140e0acc;border-left:3px solid #ff7a1a;padding:3px 12px 4px;min-width:62px;border-radius:2px;text-shadow:0 1px 2px #000}
+.pn small{display:block;font:600 11px Rajdhani,system-ui;color:#e8c9a8;letter-spacing:.7px;text-transform:uppercase}
+.pn b{font:700 26px Rajdhani,system-ui;line-height:1;color:#fff}
+#tl{top:8px;left:10px;width:auto;display:flex;gap:6px}
+#tc{top:6px;gap:8px}
+.ib{width:38px;height:38px;border-radius:6px;background:#140e0acc;border:1px solid #ff7a1a88;color:#fff;font-size:18px;padding:0}
+#tr{width:132px;font:600 12px Rajdhani,system-ui}
+#mm{display:block;width:132px;height:132px;border:2px solid #ff7a1a77;border-radius:50%;background:#2a1f15;margin-bottom:6px}
+#bl{position:fixed;left:10px;bottom:12px;z-index:7;width:190px}
+#bl .pn b{position:absolute;right:12px;top:6px;font-size:30px}
+#hpb{height:10px;border:0;border-radius:0;background:#ffffff22;margin-top:4px}
+#hpb i{background:linear-gradient(90deg,#ff7a1a,#ffc23a)}
+#sp{bottom:6px;display:flex;flex-direction:column;align-items:center;line-height:.9}
+#sp b{font:700 58px Rajdhani,system-ui;color:#f1e3cf;text-shadow:0 3px 8px #000}
+#sp small{font:600 13px Rajdhani,system-ui;letter-spacing:1px;color:#c9b29a;text-transform:none}
+/* ===== Setas de direção (opção da CONFIG) ===== */
+.ar{display:none;width:22vh;height:22vh;border-radius:4vh;--a:#9db4dc;--b:#3b4f7a;--c:#27344f}
+body.setas .ar{display:flex}
+.ar svg{width:55%;max-height:none;stroke-width:3}
+#sl{left:29%;top:78%}
+#sr{left:40.5%;top:78%}
+
+/* ===== HUD compacto: tudo em proporção da altura da tela (menos poluição) ===== */
+.pn{padding:.4vh 1.6vh .6vh;min-width:0}
+.pn small{font-size:max(8px,2.4vh)}
+.pn b{font-size:max(14px,5vh)}
+#tl{top:1.6vh;left:1.2vh;gap:.8vh}
+#tc{top:1.2vh;gap:1vh}
+.ib{width:9vh;height:9vh;min-width:28px;min-height:28px;font-size:max(14px,4vh)}
+#tr{width:auto;top:1.6vh;right:1.2vh}
+#mm{position:static;width:24vh;height:24vh;min-width:80px;min-height:80px;margin:0}
+#sbd{position:fixed;left:1.2vh;top:15vh;width:20vh}
+.r{margin-bottom:.4vh;gap:.8vh;font-size:max(9px,2.6vh)}
+.r span{width:9vh}
+.r i{height:.9vh}
+#feed{position:fixed;top:12vh;left:50%;transform:translateX(-50%);text-align:center;font-size:max(10px,2.8vh);margin:0}
+#bl{left:1.2vh;bottom:1.4vh;width:30vh}
+#bl .pn b{font-size:max(16px,6vh);top:.6vh;right:1.4vh}
+#hpb{height:1.4vh}
+#sp{bottom:.6vh}
+#sp b{font-size:max(24px,10vh)}
+#sp small{font-size:max(9px,2.6vh)}
+#mira{width:max(32px,9vh);height:max(32px,9vh)}
+.ar{width:17vh;height:17vh}
+#sl{left:21%;top:80%}
+#sr{left:30.5%;top:80%}

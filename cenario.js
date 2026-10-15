@@ -23,10 +23,11 @@ const achaLugar=m=>{                                              // sorteia um 
   return null;
 };
 
-// chão infinito além do muro (mesma cor da areia)
+// chão além do muro (anel começa depois do raio 120, onde o terreno é plano em y=0;
+// um plano inteiro cobria os vales e escondia o carro)
 {
-  const m=new T.Mesh(new T.PlaneGeometry(1400,1400).rotateX(-PI/2),new T.MeshPhongMaterial({color:0x86603f,shininess:0,flatShading:true}));
-  m.position.y=-.15;
+  const m=new T.Mesh(new T.RingGeometry(120,800,64).rotateX(-PI/2),new T.MeshPhongMaterial({color:0x86603f,shininess:0,flatShading:true}));
+  m.position.y=-.1;
   sc.add(m);
 }
 

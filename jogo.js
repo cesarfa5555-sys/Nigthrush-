@@ -21,7 +21,7 @@ function reset(){
   bu.length=0;
   $('sbd').innerHTML='';
   [['VOCÊ',0x2f8cff],['NITRO_X',0xff3b3b],['RAZOR',0x35d36b],['VIPER',0xb04dff]].forEach((n,k)=>{
-    const c=mkCar(n[0],n[1],k==0,[0,1,2,0][k]);
+    const c=mkCar(n[0],n[1],k==0,[0,1,1,0][k]);
     c.x=SP[k][0];
     c.z=SP[k][1];
     c.b.sh=5;   // proteção de nascimento (escudo por 5s)
